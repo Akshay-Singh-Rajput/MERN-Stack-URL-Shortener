@@ -1,0 +1,2 @@
+web: node dist/main.js
+package.json
