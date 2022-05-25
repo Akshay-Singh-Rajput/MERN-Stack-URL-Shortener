@@ -1,8 +1,9 @@
 const app = require('./index');
 
 const connect = require('./configs/db');
+const express = require('express');
 require("dotenv").config();
-
+const path = require('path')
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async() => {
@@ -13,3 +14,16 @@ app.listen(PORT, async() => {
     }
     console.log(`server started, listening on PORT ${PORT}`);
 })
+
+
+//-------------deployment --------------------
+__dirname = path.resolve();
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname,'../client/dist')));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname,"client", "dist","index.html"))
+    })
+}
+
+//-------------deployment --------------------

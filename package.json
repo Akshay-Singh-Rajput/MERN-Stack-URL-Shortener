@@ -2,14 +2,15 @@
   "name": "short_url",
   "version": "1.0.0",
   "description": "Backend Project",
-  "main": "index.js",
+  "main": "server.js",
   "engines": {
     "node": "16.15.0",
     "npm": "8.10.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server"
+    "start": "nodemon src/server",
+    "client" : "npm start --prefix client",
+    "dev" : "concurrently \"npm start\" \"npm run client\""
   },
   "repository": {
     "type": "git",
