@@ -13,15 +13,15 @@ const Url = require("../models/url.model");
 const baseUrl = "https://shorturlweb.herokuapp.com";
 
 router.post("/shorten", async (req, res) => {
-    const { longUrl } = req.body; // destructure the longUrl from req.body.longUrl
-    console.log("longUrl", longUrl);
+    const { longUrl,code } = req.body; // destructure the longUrl & code from req.body.longUrl && code
+    console.log("longUrl", longUrl,code);
     // check base url if valid using the validUrl.isUri method
     if (!validUrl.isUri(baseUrl)) {
         return res.status(401).json("Invalid base URL");
     }
 
     // if valid, we create the url code
-    const urlCode = shortid.generate();
+    const urlCode = code || shortid.generate();
 
     // check long url if valid using the validUrl.isUri method
     if (validUrl.isUri(longUrl)) {
