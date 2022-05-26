@@ -1,13 +1,14 @@
 import "./App.css";
-import { Heading } from "@chakra-ui/react";
+import { Heading,Text } from "@chakra-ui/react";
 import { InputForm } from "./components/InputForm";
 function App() {
     return (
         <div className="App">
-            <Heading as="h3" size="xl" mt={'5%' }>
+            <Heading as="h3" size="xl" m={'3% 0% 2% 0%' }>
                 SHORTURL
             </Heading>
             <InputForm />
+            <Text m={ '3%' }>Made with ❤️ by Me ( <a href="https://akshay-kumar-portfoilo.netlify.app/"> Akshay Kumar</a>)</Text>
         </div>
     );
 }

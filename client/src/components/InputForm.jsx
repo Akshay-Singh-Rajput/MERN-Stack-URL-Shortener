@@ -11,7 +11,6 @@ import {
     useClipboard,
     InputGroup,
     InputLeftAddon,
-    Text,
 } from "@chakra-ui/react";
 
 export const InputForm = () => {
@@ -60,15 +59,15 @@ export const InputForm = () => {
     return (
         <Box
             width={ "40%" }
-            margin={ "5% auto" }
-            boxShadow="base"
+            margin={ "auto" }
+            boxShadow="md"
             p="6"
             rounded="md"
             bg="white"
         >
 
             <FormControl isInvalid={ isError }>
-                <FormLabel >Enter a long URL to make a ShortURL</FormLabel>
+                <FormLabel >Enter a Long URL to Make a ShortURL</FormLabel>
                 <Input
                     id="longUrl"
                     type="url"
@@ -83,12 +82,14 @@ export const InputForm = () => {
                 ) }
             </FormControl>
             <FormLabel mt={ 7 } fontSize='md'>Customize Your ShortURL link(optional)</FormLabel>
-            <InputGroup size='sm'>
+            <InputGroup size='md'>
                 <InputLeftAddon children='https://shorturlweb.herokuapp.com/' />
                 <Input placeholder='yoursite' id="code"
                     type="text"
                     value={ input.code }
-                    onChange={ handleInputChange } />
+                    onChange={ handleInputChange }
+                    w='30%'
+                />
             </InputGroup>
             <Button colorScheme="blue" m={ 5 } onClick={ handleForm }>
                 Submit
