@@ -91,7 +91,7 @@ export const InputForm = () => {
                     type="text"
                     value={ input.code }
                     onChange={ handleInputChange }
-                    w='30%'
+                    w='40%'
                 />
             </InputGroup>
             <Button colorScheme="blue" m={ 5 } onClick={ handleForm }>
