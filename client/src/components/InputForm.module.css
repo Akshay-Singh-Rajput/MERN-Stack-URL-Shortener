@@ -1,0 +1,18 @@
+
+/* @media query for max 600px */
+@media only screen and (max-width: 600px) {
+.mainContainer {
+        width: 100% !important;
+        margin: auto !important;
+    }
+    .InputGroup {
+        display: flex;
+        flex-direction: column;
+    }
+    .BaseUrlAddon{
+    font-size: 15px !important;
+    }
+    .InputGroup input{
+        width: 100% !important;
+    };
+}

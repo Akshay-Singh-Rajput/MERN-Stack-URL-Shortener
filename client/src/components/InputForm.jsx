@@ -13,6 +13,9 @@ import {
     InputLeftAddon,
 } from "@chakra-ui/react";
 
+import styles from './InputForm.module.css'
+
+
 export const InputForm = () => {
     const [ input, setInput ] = useState(
         {
@@ -64,7 +67,7 @@ export const InputForm = () => {
             p="6"
             rounded="md"
             bg="white"
-        >
+            className={styles.mainContainer} >
 
             <FormControl isInvalid={ isError }>
                 <FormLabel >Enter a Long URL to Make a ShortURL</FormLabel>
@@ -82,8 +85,8 @@ export const InputForm = () => {
                 ) }
             </FormControl>
             <FormLabel mt={ 7 } fontSize='md'>Customize Your ShortURL link(optional)</FormLabel>
-            <InputGroup size='md'>
-                <InputLeftAddon children='https://shorturlweb.herokuapp.com/' />
+            <InputGroup size='md' className={ styles.InputGroup }>
+                <InputLeftAddon children='https://shorturlweb.herokuapp.com/' className={ styles.BaseUrlAddon } />
                 <Input placeholder='yoursite' id="code"
                     type="text"
                     value={ input.code }
