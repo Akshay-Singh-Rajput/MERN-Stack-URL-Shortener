@@ -87,7 +87,7 @@ export const InputForm = () => {
             <FormLabel mt={ 7 } fontSize='md'>Customize Your ShortURL link(optional)</FormLabel>
             <InputGroup size='md' className={ styles.InputGroup }>
                 <InputLeftAddon children='https://shorturlweb.herokuapp.com/' className={ styles.BaseUrlAddon } />
-                <Input placeholder='yoursite' id="code"
+                <Input placeholder='your site name/code ' id="code"
                     type="text"
                     value={ input.code }
                     onChange={ handleInputChange }
