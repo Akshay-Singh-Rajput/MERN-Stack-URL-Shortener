@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import {
     Box,
     FormControl,
@@ -12,50 +13,47 @@ import {
     InputGroup,
     InputLeftAddon,
 } from "@chakra-ui/react";
-
-import styles from './InputForm.module.css'
-
+import styles from './InputForm.module.css';
 
 export const InputForm = () => {
     const [ input, setInput ] = useState(
         {
             longUrl: "",
-            code: ""
+            urlCode: ""
         }
     );
     const [ url, setUrl ] = useState("");
     const { hasCopied, onCopy } = useClipboard(url);
+    const clientBaseUrl = window.location.href;
 
     const handleInputChange = (e) => {
-        setInput({ ...input, [ e.target.id ]: e.target.value });
+        const { id, value } = e.target;
+        setInput({ ...input, [ id ]: value });
     };
-
-    const handleForm = () => {
-        if (input.longUrl === "") {
-            setUrl("Please Paste URL");
+    const handleEnter = (e) => {
+        console.log(e.key);
+        if (e.key === "Enter") {
+            handleSubmit();
+        }
+    };
+    const handleSubmit = () => {
+        if (!input.longUrl) {
+            setUrl("Please add a URL");
             return;
         }
-        console.log("input", input);
-        try {
-            fetch("https://shorturlweb.herokuapp.com/api/url/shorten", {
-                method: "post",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(input),
-            })
-                .then((data) => data.json())
-                .then((res) => {
-                    if (res.err) {
-                        setUrl(res.err);
-                    } else {
-                        setUrl(res.shortUrl);
-                    }
-                    console.log("res", res);
-                })
-                .then((err) => console.log(err));
-        } catch (error) {
-            console.log("error", error);
-        }
-        // console.log("shortUrl", url);
+
+        axios.post('/api/url/shorten', input).then(res => {
+            if (res.status) {
+                let data = res.data;
+                let createUrl = clientBaseUrl + data.urlCode;
+                setUrl(createUrl);
+            }
+            console.log("res", res);
+        }).catch(error => {
+            let errorMsg = error.response.data.error;
+            setUrl(errorMsg);
+            console.log("error", errorMsg);
+        });
     };
 
     const isError = input.longUrl === "";
@@ -67,8 +65,7 @@ export const InputForm = () => {
             p="6"
             rounded="md"
             bg="white"
-            className={styles.mainContainer} >
-
+            className={ styles.mainContainer } >
             <FormControl isInvalid={ isError }>
                 <FormLabel >Enter a Long URL to Make a ShortURL</FormLabel>
                 <Input
@@ -77,6 +74,7 @@ export const InputForm = () => {
                     value={ input.longUrl }
                     placeholder="Paste here Your Long Url"
                     onChange={ handleInputChange }
+                    onKeyDown={ handleEnter }
                 />
                 { !isError ? (
                     <FormHelperText>Enter your Long Url</FormHelperText>
@@ -86,15 +84,16 @@ export const InputForm = () => {
             </FormControl>
             <FormLabel mt={ 7 } fontSize='md'>Customize Your ShortURL link(optional)</FormLabel>
             <InputGroup size='md' className={ styles.InputGroup }>
-                <InputLeftAddon children='https://shorturlweb.herokuapp.com/' className={ styles.BaseUrlAddon } />
-                <Input placeholder='your site name/code ' id="code"
+                <InputLeftAddon children={ `${clientBaseUrl}` } className={ styles.BaseUrlAddon } />
+                <Input placeholder='site name/urlCode ' id="urlCode"
                     type="text"
-                    value={ input.code }
+                    value={ input.urlCode }
                     onChange={ handleInputChange }
                     w='40%'
+                    onKeyDown={ handleEnter }
                 />
             </InputGroup>
-            <Button colorScheme="blue" m={ 5 } onClick={ handleForm }>
+            <Button type="submit" colorScheme="blue" m={ 5 } onClick={ handleSubmit }>
                 Submit
             </Button>
             <Flex mb={ 2 }>
