@@ -84,12 +84,12 @@ export const InputForm = () => {
             </FormControl>
             <FormLabel mt={ 7 } fontSize='md'>Customize Your ShortURL link(optional)</FormLabel>
             <InputGroup size='md' className={ styles.InputGroup }>
-                <InputLeftAddon children={ `${clientBaseUrl}` } className={ styles.BaseUrlAddon } />
+                <InputLeftAddon children={ `${clientBaseUrl}` } className={ styles.BaseUrlAddon } w='50%' />
                 <Input placeholder='site name/urlCode ' id="urlCode"
                     type="text"
                     value={ input.urlCode }
                     onChange={ handleInputChange }
-                    w='40%'
+                    w='50%'
                     onKeyDown={ handleEnter }
                 />
             </InputGroup>
