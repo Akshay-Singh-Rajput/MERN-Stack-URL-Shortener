@@ -2,52 +2,72 @@ const express = require("express");
 const router = express.Router();
 const validUrl = require("valid-url");
 const shortid = require("shortid");
-const Url = require("../models/url.model");
+const { URLModel } = require("../models/url.model");
+const { generateShortId } = require("../utils");
 
 const baseUrl = process.env.BASEURI;
 
-router.post("/shorten", async (req, res) => {
-    const { longUrl, code } = req.body;
 
-    if (!validUrl.isUri(baseUrl)) {
-        return res.status(401).json("Invalid base URL");
-    }
+const generateUniqueShortId = async () => {
+    let shortId;
+    let existingURL;
 
-    if (validUrl.isUri(longUrl)) {
-        try {
-            let url = await Url.findOne({
-                longUrl,
-            });
+    while (true) {
+        shortId = generateShortId();
+        existingURL = await URLModel.findOne({ urlCode: shortId });
 
-            if (url && !code) {
-                return res.json(url);
-            }
-
-            let urlCode = code;
-            let existingUrlWithUrl;
-            let shortUrl;
-
-            while (!urlCode || existingUrlWithUrl) {
-                urlCode = shortid.generate();
-                shortUrl = baseUrl + "/" + urlCode;
-                existingUrlWithUrl = await Url.findOne({
-                    urlCode,
-                });
-            }
-
-            url = new Url({
-                longUrl,
-                shortUrl,
-                urlCode,
-            });
-            await url.save();
-            res.status(201).json(url);
-        } catch (err) {
-            res.status(500).send({ err: "Server Error" });
+        if (!existingURL) {
+            break;
         }
-    } else {
-        res.status(401).send({ err: "Invalid Url" });
     }
+    return shortId;
+};
+
+
+router.post("/shorten", async (req, res) => {
+    const { longUrl, urlCode } = req.body;
+
+    try {
+
+        if (!validUrl.isUri(longUrl)) {
+            return res.status(401).json({ error: "Invalid Url" });
+        }
+
+
+        if (urlCode) {
+            const existingCodeBookmark = await URLModel.findOne({ urlCode });
+
+            if (existingCodeBookmark) {
+                return res.status(400).json({ error: 'Code already in use. Please choose a different code.' });
+            }
+        }
+
+        const existingURL = await URLModel.findOne({ longUrl });
+
+        if (existingURL && !urlCode) {
+            return res.json({ urlCode: existingURL.urlCode });
+        }
+
+        let generatedCode;
+        if (!urlCode) {
+            generatedCode = await generateUniqueShortId();
+        } else {
+            generatedCode = urlCode;
+        }
+        const shortUrl = `${baseUrl}/${generatedCode}`;
+
+        const newURL = new URLModel({
+            urlCode: generatedCode,
+            longUrl,
+            shortUrl,
+        });
+        await newURL.save();
+        res.status(201).json({ urlCode: generatedCode });
+    } catch (error) {
+        console.error('Error shortening URL:', error);
+        res.status(500).json({ error: 'Failed to shorten URL' });
+    }
+
 });
 
 module.exports = router;

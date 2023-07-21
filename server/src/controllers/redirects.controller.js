@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const Url = require('../models/url.model');
+const {URLModel} = require('../models/url.model');
 
 router.get('/:code', async (req, res) => {
     try {
         const { code } = req.params;
-        const url = await Url.findOne({
+        const url = await URLModel.findOne({
             urlCode: code
         });
         if (url) {
