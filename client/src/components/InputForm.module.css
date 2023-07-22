@@ -2,9 +2,10 @@
 @media screen and (max-width: 1200px) {
 
     .mainContainer {
-            width: 100% !important;
-            margin: auto !important;
-        }
+        width: 80% !important;
+        margin: auto !important;
+    }
+
     .InputGroup {
         display: flex;
         flex-direction: column;
