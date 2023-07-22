@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Homepage from "./Homepage";
-import RedirectPage from "./components/RedirectPage";
+import ShortUrlRedirect from "./components/ShortUrlRedirect ";
 
 function App() {
 
@@ -10,7 +10,7 @@ function App() {
             <Routes>
                 <Route path='/' element={ <Homepage /> } />
                 <Route path='/:urlCode'
-                    element={ <RedirectPage /> }
+                    element={ <ShortUrlRedirect /> }
                 />
             </Routes>
         </div>
