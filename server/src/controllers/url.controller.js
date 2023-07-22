@@ -38,7 +38,7 @@ router.post("/shorten", async (req, res) => {
             const existingCodeBookmark = await URLModel.findOne({ urlCode });
 
             if (existingCodeBookmark) {
-                return res.status(400).json({ error: 'Code already in use. Please choose a different code.' });
+                return res.status(400).json({ error: `Code ${urlCode} already in use. Please choose a different code.` });
             }
         }
 
