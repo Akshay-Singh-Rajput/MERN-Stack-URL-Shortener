@@ -1,4 +1,4 @@
-# Live link ([https://shorturlweb.herokuapp.com/](https://lightlink.vercel.app/))
+# Live link ([https://lightlink.vercel.app/](https://lightlink.vercel.app/))
 ## MERN Project
 ![image](https://user-images.githubusercontent.com/97354310/172382127-7c3b1a1b-0d16-4e2d-b0d8-e789aad5eccf.png)
 
